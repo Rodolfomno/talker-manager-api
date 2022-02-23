@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const getTalkers = require('./middlewares/getTalkers');
+
 const { errorHandler, loginResponse, createTalker,
-   editTalker, deleteTalker } = require('./controllers/index');
+   editTalker, deleteTalker, searchTalker } = require('./controllers/index');
+
 const { validateEmail, validatePassword, validateAge,
   validateDate, validateName, validateRate,
   validateTalk, validateToken } = require('./middlewares/index');
@@ -13,6 +15,7 @@ const validateTalker = [validateToken, validateName,
 
 const app = express();
 app.use(bodyParser.json());
+app.get('/talker/search', validateToken, searchTalker);
 app.use('/talker', getTalkers);
 
 const HTTP_OK_STATUS = 200;
