@@ -1,10 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const getTalkers = require('./middlewares/getTalkers');
-const { errorHandler, loginResponse } = require('./controllers/index');
-const { validateEmail, validatePassword } = require('./middlewares/index');
+const { errorHandler, loginResponse, createTalker } = require('./controllers/index');
+const { validateEmail, validatePassword, validateAge,
+  validateDate, validateName, validateRate,
+  validateTalk, validateToken } = require('./middlewares/index');
 
-const loginValidation = [validateEmail, validatePassword];
+const validateLogin = [validateEmail, validatePassword];
+const validateTalker = [validateToken, validateName,
+  validateAge, validateTalk, validateDate, validateRate];
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,5 +25,7 @@ app.listen(PORT, () => {
   console.log('Online');
 });
 
-app.post('/login', loginValidation, loginResponse);
+app.post('/login', validateLogin, loginResponse);
+app.post('/talker', validateTalker, createTalker);
+
 app.use(errorHandler);
