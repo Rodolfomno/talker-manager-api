@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const getTalkers = require('./middlewares/getTalkers');
-const { errorHandler, loginResponse, createTalker } = require('./controllers/index');
+const { errorHandler, loginResponse, createTalker,
+   editTalker, deleteTalker } = require('./controllers/index');
 const { validateEmail, validatePassword, validateAge,
   validateDate, validateName, validateRate,
   validateTalk, validateToken } = require('./middlewares/index');
@@ -27,5 +28,9 @@ app.listen(PORT, () => {
 
 app.post('/login', validateLogin, loginResponse);
 app.post('/talker', validateTalker, createTalker);
+
+app.put('/talker/:id', validateTalker, editTalker);
+
+app.delete('/talker/:id', validateToken, deleteTalker);
 
 app.use(errorHandler);
